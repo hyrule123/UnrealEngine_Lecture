@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyGameInstance.h"
+#include "TCHAR_FString_Example.h"
 
-void UMyGameInstance::Init()
+void UTCHAR_FString_Example::Init()
 {
 	//상위 클래스의 Init 함수를 반드시 호출한 후 내 코드를 호출해야 함
 	Super::Init();
@@ -20,7 +20,7 @@ void UMyGameInstance::Init()
 	UE_LOG(LogTemp, Log, TEXT("%s"), *LogCharString);
 
 	const TCHAR* LogCharPtr = *LogCharString;
-	
+
 	//메모리에 직접 접근해서 사용하기
 	TCHAR* LogCharDataPtr = LogCharString.GetCharArray().GetData();
 	UE_LOG(LogTemp, Log, TEXT("%s"), LogCharDataPtr);
@@ -32,7 +32,7 @@ void UMyGameInstance::Init()
 
 
 	////////////유용한 함수들/////////////
-	
+
 	//문자열 포함여부 및 찾기 - 대소문자 구분 또는 무시 여부를 선택 가능
 	if (LogCharString.Contains(TEXT("unreal"), ESearchCase::IgnoreCase))
 	{
@@ -49,7 +49,7 @@ void UMyGameInstance::Init()
 
 	//문자열 나누기
 	FString Left, Right;
-	if (LogCharString.Split(TEXT(" "), &Left, &Right)) 
+	if (LogCharString.Split(TEXT(" "), &Left, &Right))
 	{
 		//참고 - 한글의 경우 유니코드 형태로 저장해주어야 언리얼에서 출력이 된다.
 		UE_LOG(LogTemp, Log, TEXT("Split Test: %s 와 %s"), *Left, *Right);
