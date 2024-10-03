@@ -16,9 +16,10 @@ class LECTURE_API UPerson : public UObject
 public:
 	UPerson();
 
-	UFUNCTION()
-	virtual void DoLesson();
-
+	//인터페이스 클래스로 올렸음
+	//UFUNCTION()
+	//virtual void DoLesson();
+	
 	const FString& GetPersonName() const;
 	void SetPersonName(const FString& InName);
 protected:

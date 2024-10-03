@@ -9,10 +9,10 @@ UPerson::UPerson()
 	Year = 1;
 }
 
-void UPerson::DoLesson()
-{
-	UE_LOG(LogTemp, Log, TEXT("%s님이 수업에 참여했습니다."), *PersonName);
-}
+//void UPerson::DoLesson()
+//{
+//	UE_LOG(LogTemp, Log, TEXT("%s님이 수업에 참여했습니다."), *PersonName);
+//}
 
 const FString& UPerson::GetPersonName() const
 {
