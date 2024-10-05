@@ -20,6 +20,9 @@ public:
 
 	virtual void DoLesson() override;
 
+	//CourseInfo의 전방선언도, 헤더 인클루드도 없음. 함수 하나 선언으로 끝 
+	void GetNotification(const FString& School, const FString& NewCourseInfo);
+
 private:
 	UPROPERTY()
 	int32 StudentID;

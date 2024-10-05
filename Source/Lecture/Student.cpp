@@ -20,3 +20,8 @@ void UStudent::DoLesson()
 
 	UE_LOG(LogTemp, Log, TEXT("%d학년 %d번 %s님이 수업을 듣습니다."), Year, StudentID, *Super::PersonName);
 }
+
+void UStudent::GetNotification(const FString& School, const FString& NewCourseInfo)
+{
+	UE_LOG(LogTemp, Log, TEXT("[Student] %s님이 %s로부터 받은 메시지: %s"), *PersonName, *School, *NewCourseInfo);
+}
