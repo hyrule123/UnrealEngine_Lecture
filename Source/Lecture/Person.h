@@ -7,7 +7,6 @@
 #include "Person.generated.h"
 
 class UCard;
-
 /**
  * 
  */

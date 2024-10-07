@@ -22,6 +22,27 @@ struct FStudentData
 	{
 	}
 
+	//Serialize 방법 2: friend 선언한 전역변수 만들기
+	//>> 연산자 필요 없이 << 연산자 하나면 다 됨
+	friend FArchive& operator << (FArchive& InOutArchive, FStudentData& InStudentData)
+	{
+		if (InOutArchive.IsSaving()) 
+		{
+			FString LoadStr = InStudentData.Name.ToString();
+			InOutArchive << LoadStr;
+		}
+		else
+		{
+			FString LoadStr;
+			InOutArchive << LoadStr;
+			InStudentData.Name = *LoadStr;
+		}
+		
+		InOutArchive << InStudentData.ID;
+
+		return InOutArchive;
+	}
+
 	//TSet, TMap의 키값으로 사용하기 위한 함수
 	//== operator
 	bool operator==(const FStudentData& InStudentData) const
