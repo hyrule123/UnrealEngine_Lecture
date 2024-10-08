@@ -12,6 +12,14 @@
 				"Engine",
 				"CoreUObject"
 			]
+		},
+		{
+			"Name": "ModuleExample",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"CoreUObject"
+			]
 		}
 	],
 	"Plugins": [

@@ -18,8 +18,9 @@ public class Lecture : ModuleRules
     public Lecture(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Json", "JsonUtilities" });
+	    
+        //ModuleExample을 의존성 모듈에 추가한다.(이제 ModuleExample 없이는 빌드 불가)
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Json", "JsonUtilities", "ModuleExample" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

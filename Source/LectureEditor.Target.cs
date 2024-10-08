@@ -11,5 +11,8 @@ public class LectureEditorTarget : TargetRules
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
 		ExtraModuleNames.Add("Lecture");
-	}
+
+		//ModuleExample 모듈 추가
+        ExtraModuleNames.Add("ModuleExample");
+    }
 }
