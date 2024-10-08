@@ -10,12 +10,30 @@ constexpr const TCHAR* PackageName = TEXT("/Game/PackageExample");
 constexpr const TCHAR* AssetName = TEXT("Package Asset");
 
 
+ULecture14_UPackage::ULecture14_UPackage()
+{
+	const FString TopSoftObjectPath = FString::Printf(TEXT("%s.%s"), PackageName, AssetName);
+
+	//생성자에서 오브젝트를 로드할 경우, 게임 시작 시점에 모두 로드가 되어있어야 함을 의미한다.
+	static ConstructorHelpers::FObjectFinder<UPackageExample> PreLoad(*TopSoftObjectPath);
+
+	//만약 성공헀다면 아래 로그가 "두 번" 찍히게 된다.
+	//첫 로딩 시 한번, 에디터에서 한 번
+	//생성자에서 불러오는 것이기 때문에, 에셋이 있다는 것이 보장되어야 한다. 아니면 로딩 중에 막힘.
+	if (PreLoad.Succeeded())
+	{
+		UE_LOG(LogTemp, Log, TEXT("FObjectFinder를 통한 생성자에서 로드 확인: 이름: %s, ID: %d"), *PreLoad.Object->Name, PreLoad.Object->ID);
+	}
+}
+
 void ULecture14_UPackage::Init()
 {
 	Super::Init();
 
-	SavePackage();
-	LoadPackage();
+	//SavePackage();
+	//LoadPackage();
+	//LoadExampleObject();
+	LoadExampleObjectAsync();
 }
 
 void ULecture14_UPackage::SavePackage() const
@@ -75,4 +93,38 @@ void ULecture14_UPackage::LoadPackage() const
 
 	UPackageExample* Example = FindObject<UPackageExample>(Pkg, AssetName);
 	UE_LOG(LogTemp, Log, TEXT("패키지 잘 로드됐나?: 이름: %s, ID: %d"), *Example->Name, Example->ID);
+}
+
+void ULecture14_UPackage::LoadExampleObject() const
+{
+	const FString TopSoftObjectPath = FString::Printf(TEXT("%s.%s"), PackageName, AssetName);
+	
+	UPackageExample* Example = LoadObject<UPackageExample>(nullptr, *TopSoftObjectPath);
+	UE_LOG(LogTemp, Log, TEXT("LoadObject를 통한 로드 확인: 이름: %s, ID: %d"), *Example->Name, Example->ID);
+}
+
+void ULecture14_UPackage::LoadExampleObjectAsync()
+{
+	const FString TopSoftObjectPath = FString::Printf(TEXT("%s.%s"), PackageName, AssetName);
+
+	//인자 1: 패키지 이름
+	//인자 2: 로드 완료되면 호출할 콜백함수
+	Handle = StreamableManager.RequestAsyncLoad(TopSoftObjectPath,
+		[&]()
+		{
+			//Handle이 유효 + 로드 완료 되었을 시
+			if (Handle.IsValid() && Handle->HasLoadCompleted())
+			{
+				//로드된 오브젝트를 캐스팅해서 가져온다.
+				UPackageExample* TopObject = Cast<UPackageExample>(Handle->GetLoadedAsset());
+				if (TopObject)
+				{
+					UE_LOG(LogTemp, Log, TEXT("FStreamableManager를 통한 로드 확인: 이름: %s, ID: %d"), *TopObject->Name, TopObject->ID);
+
+					Handle->ReleaseHandle();
+					Handle.Reset();
+				}
+			}
+		}
+		);
 }
